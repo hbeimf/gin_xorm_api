@@ -28,6 +28,9 @@ func init() {
 	source := fmt.Sprintf("%s:%s@%s", username, password, url)
 	x, err = xorm.NewEngine("mysql", source)
 
+	//日志打印SQL
+	x.ShowSQL(true)
+
 	if err != nil {
 		log.Fatalf("db error: %#v\n", err.Error())
 	}
