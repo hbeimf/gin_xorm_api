@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/appleboy/gin-jwt"
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 	"log"
+	"net/http"
 
 	"../db"
 	"../router/middleware"
@@ -43,4 +45,27 @@ func HelloHandler(c *gin.Context) {
 		"uid":      claims["Uid"],
 		"info":     u3,
 	})
+}
+
+// websocket demo
+var wsupgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+}
+
+func WsHandler(w http.ResponseWriter, r *http.Request) {
+	conn, err := wsupgrader.Upgrade(w, r, nil)
+	fmt.Println(" websocket upgrade")
+	if err != nil {
+		fmt.Println("Failed to set websocket upgrade: %+v", err)
+		return
+	}
+
+	for {
+		t, msg, err := conn.ReadMessage()
+		if err != nil {
+			break
+		}
+		conn.WriteMessage(t, msg)
+	}
 }

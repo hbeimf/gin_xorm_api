@@ -13,6 +13,16 @@ import (
 
 func Init() *gin.Engine {
 	router := gin.New()
+
+	// websocket
+	router.LoadHTMLFiles("index.html")
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
+	router.GET("/ws", func(c *gin.Context) {
+		handler.WsHandler(c.Writer, c.Request)
+	})
+
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
