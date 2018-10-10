@@ -1,1 +1,4 @@
-readme.md
+
+```
+	$ make run
+```
