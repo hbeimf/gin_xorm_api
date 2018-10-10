@@ -66,6 +66,7 @@ func WsHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			break
 		}
+		fmt.Println("receive msg: %s", msg)
 		conn.WriteMessage(t, msg)
 	}
 }
