@@ -16,6 +16,10 @@ run:
 	go run ./main.go
 
 
+test:
+	cd ./client_test/wsc && rebar3 shell
+
+
 # cc:
 # 	rm -rf ./GinDemo
 
