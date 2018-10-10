@@ -66,7 +66,16 @@ func WsHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			break
 		}
-		fmt.Println("receive msg: %s", msg)
+		fmt.Println("receive msg: %s", byteString(msg))
 		conn.WriteMessage(t, msg)
 	}
+}
+
+func byteString(p []byte) string {
+	for i := 0; i < len(p); i++ {
+		if p[i] == 0 {
+			return string(p[0:i])
+		}
+	}
+	return string(p)
 }
