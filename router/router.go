@@ -12,6 +12,7 @@ import (
 )
 
 func Init() *gin.Engine {
+	// gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 
 	// websocket
