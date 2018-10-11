@@ -5,7 +5,9 @@
   {mod, { wsc_app, []}},
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+    crypto,
+    ssl
    ]},
   {env,[]},
   {modules, []},
