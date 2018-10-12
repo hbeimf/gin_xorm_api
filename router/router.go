@@ -24,6 +24,17 @@ func Init() *gin.Engine {
 		handler.WsHandler(c.Writer, c.Request)
 	})
 
+	//websocket chat
+	hub := newHub()
+	go hub.run()
+	router.LoadHTMLFiles("home.html")
+	router.GET("/chat", func(c *gin.Context) {
+		c.HTML(200, "home.html", nil)
+	})
+	router.GET("/wschat", func(c *gin.Context) {
+		serveWs(hub, c.Writer, c.Request)
+	})
+
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
