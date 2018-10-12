@@ -8,6 +8,8 @@ import (
 	// "log"
 	"flag"
 	"fmt"
+
+	"../router/ws"
 )
 
 type Redis struct {
@@ -147,7 +149,7 @@ func (this *Redis) RedisRPop(listName string) (string, error) {
 
 // http://www.cnblogs.com/liughost/p/5008029.html
 // http://studygolang.com/articles/4542
-func (this *Redis) RedisSub(channel string) {
+func (this *Redis) RedisSub(channel string, hub *ws.Hub) {
 	c := this.pool.Get()
 	psc := redis.PubSubConn{c}
 	// psc.PSubscribe("aa*")
@@ -164,6 +166,8 @@ func (this *Redis) RedisSub(channel string) {
 		case redis.PMessage: //模式订阅psubscribe
 			fmt.Printf("X PMessage: %s %s %s\n", v.Pattern, v.Channel, v.Data)
 			fmt.Println("X PMessage: %s %s %s\n", v.Pattern, v.Channel, v.Data)
+			// 当消费到消息的时候，广播出去
+			hub.Broadcast <- v.Data
 		case error:
 			fmt.Println("error")
 		}
