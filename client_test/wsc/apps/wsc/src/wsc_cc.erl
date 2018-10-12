@@ -15,7 +15,7 @@ start_link() ->
     % ssl:start(),
     % websocket_client:start_link("wss://echo.websocket.org", ?MODULE, []).
   
-    websocket_client:start_link("ws://localhost:8000/ws", ?MODULE, []).
+    websocket_client:start_link("ws://localhost:8000/wschat", ?MODULE, []).
 
     
 
