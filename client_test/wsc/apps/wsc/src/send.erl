@@ -17,13 +17,13 @@ test() ->
 	Pid ! {text, Txt},
 	ok.
 
-test_bin() -> 
-	Bin = create_package(),
-	% binary(PackageBinary).
-	{ok, Pid} = wsc_cc:start_link(),
-	% Pid ! {binary, <<Bin/binary,Bin/binary,Bin/binary>>},
-	Pid ! {binary, Bin},
-	ok.
+% test_bin() -> 
+% 	Bin = create_package(),
+% 	% binary(PackageBinary).
+% 	{ok, Pid} = wsc_cc:start_link(),
+% 	% Pid ! {binary, <<Bin/binary,Bin/binary,Bin/binary>>},
+% 	Pid ! {binary, Bin},
+% 	ok.
 		
 create_package() -> 
 	<<"hello world">>.
@@ -44,7 +44,7 @@ init() ->
 init_ws_clients() -> 
 	ets:new(?WS_CLIENTS, ?ETS_OPTS),
 	lists:foreach(fun(Index) -> 
-		{ok, Pid} = wsc_cc:start_link(),
+		{ok, Pid} = wsc_cc:start_link(Index),
 		ets:insert(?WS_CLIENTS, #ws_clients{key=Index, val=Pid})
 	end, [1,2,3,4,5,6]),
 

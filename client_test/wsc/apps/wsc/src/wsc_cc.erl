@@ -3,27 +3,27 @@
 -behaviour(websocket_client_handler).
 
 -export([
-         start_link/0,
+         start_link/1,
          init/2,
          websocket_handle/3,
          websocket_info/3,
          websocket_terminate/3
         ]).
 
-start_link() ->
+start_link(Index) ->
     % crypto:start(),
     % ssl:start(),
     % websocket_client:start_link("wss://echo.websocket.org", ?MODULE, []).
   
-    websocket_client:start_link("ws://localhost:8000/wschat", ?MODULE, []).
+    websocket_client:start_link("ws://localhost:8000/wschat", ?MODULE, [Index]).
 
     
 
-init([], _ConnState) ->
+init([Index], _ConnState) ->
     % websocket_client:cast(self(), {text, <<"message 1">>}),
     % io:format("client pid: ~p ~n", [self()]),
 
-    {ok, 2}.
+    {ok, Index}.
 
 % websocket_handle({pong, _}, _ConnState, State) ->
 %     {ok, State};
@@ -35,7 +35,7 @@ websocket_handle({binary, Bin}, _ConnState, State) ->
 	io:format("Client received binary here ~p~n", [Bin]),
 	{ok, State};
 websocket_handle(Msg, _ConnState, State) ->
-    io:format("Client received msg:~n~p~n", [Msg]),
+    io:format("Client ~p received msg:~n~p~n", [State, Msg]),
     % timer:sleep(1000),
     % BinInt = list_to_binary(integer_to_list(State)),
     % {reply, {text, <<"hello, this is message #", BinInt/binary >>}, State + 1}.
