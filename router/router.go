@@ -9,6 +9,7 @@ import (
 
 	"../handler"
 	"../router/middleware"
+	"../router/ws"
 )
 
 func Init() *gin.Engine {
@@ -16,23 +17,23 @@ func Init() *gin.Engine {
 	router := gin.New()
 
 	// websocket
-	router.LoadHTMLFiles("index.html")
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", nil)
-	})
-	router.GET("/ws", func(c *gin.Context) {
-		handler.WsHandler(c.Writer, c.Request)
-	})
+	// router.LoadHTMLFiles("index.html")
+	// router.GET("/", func(c *gin.Context) {
+	// 	c.HTML(200, "index.html", nil)
+	// })
+	// router.GET("/ws", func(c *gin.Context) {
+	// 	handler.WsHandler(c.Writer, c.Request)
+	// })
 
 	//websocket chat
-	hub := newHub()
-	go hub.run()
+	hub := ws.NewHub()
+	go hub.Run()
 	router.LoadHTMLFiles("home.html")
 	router.GET("/chat", func(c *gin.Context) {
 		c.HTML(200, "home.html", nil)
 	})
 	router.GET("/wschat", func(c *gin.Context) {
-		serveWs(hub, c.Writer, c.Request)
+		ws.ServeWs(hub, c.Writer, c.Request)
 	})
 
 	router.Use(gin.Logger())

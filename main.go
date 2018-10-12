@@ -5,10 +5,14 @@ import (
 	"net/http"
 	"os"
 
+	"./redisc"
 	"./router"
 )
 
 func main() {
+	// redis sub
+	go redisc.RedisClient.RedisSub("kuaisan-channel")
+
 	port := os.Getenv("PORT")
 	router := router.Init()
 
