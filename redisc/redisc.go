@@ -149,7 +149,7 @@ func (this *Redis) RedisRPop(listName string) (string, error) {
 
 // http://www.cnblogs.com/liughost/p/5008029.html
 // http://studygolang.com/articles/4542
-func (this *Redis) RedisSub(channel string, hub *ws.Hub) {
+func (this *Redis) RedisSub(channel string) {
 	c := this.pool.Get()
 	psc := redis.PubSubConn{c}
 	// psc.PSubscribe("aa*")
@@ -167,7 +167,7 @@ func (this *Redis) RedisSub(channel string, hub *ws.Hub) {
 			fmt.Printf("X PMessage: %s %s %s\n", v.Pattern, v.Channel, v.Data)
 			fmt.Println("X PMessage: %s %s %s\n", v.Pattern, v.Channel, v.Data)
 			// 当消费到消息的时候，广播出去
-			hub.Broadcast <- v.Data
+			ws.HubInstance.Broadcast <- v.Data
 		case error:
 			fmt.Println("error")
 		}
