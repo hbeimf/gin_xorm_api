@@ -27,17 +27,15 @@ func Init() *gin.Engine {
 	// })
 
 	//websocket chat
-	hub := ws.NewHub()
-	go hub.Run()
 	// redis sub
-	go redisc.RedisClient.RedisSub("kuaisan-channel", hub)
+	go redisc.RedisClient.RedisSub("kuaisan-channel", ws.HubInstance)
 
 	router.LoadHTMLFiles("home.html")
 	router.GET("/chat", func(c *gin.Context) {
 		c.HTML(200, "home.html", nil)
 	})
 	router.GET("/wschat", func(c *gin.Context) {
-		ws.ServeWs(hub, c.Writer, c.Request)
+		ws.ServeWs(ws.HubInstance, c.Writer, c.Request)
 	})
 
 	router.Use(gin.Logger())

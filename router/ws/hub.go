@@ -4,6 +4,14 @@
 
 package ws
 
+// 客户端连接实例
+var HubInstance *Hub
+
+func init() {
+	HubInstance = NewHub()
+	go HubInstance.Run()
+}
+
 // Hub maintains the set of active clients and broadcasts messages to the
 // clients.
 type Hub struct {
