@@ -8,8 +8,8 @@ package ws
 var HubInstance *Hub
 
 func init() {
-	HubInstance = NewHub()
-	go HubInstance.Run()
+	HubInstance = newHub()
+	go HubInstance.run()
 }
 
 // Hub maintains the set of active clients and broadcasts messages to the
@@ -28,7 +28,7 @@ type Hub struct {
 	unregister chan *Client
 }
 
-func NewHub() *Hub {
+func newHub() *Hub {
 	return &Hub{
 		Broadcast:  make(chan []byte),
 		register:   make(chan *Client),
@@ -37,7 +37,7 @@ func NewHub() *Hub {
 	}
 }
 
-func (h *Hub) Run() {
+func (h *Hub) run() {
 	for {
 		select {
 		case client := <-h.register:
