@@ -35,7 +35,7 @@ func Init() *gin.Engine {
 		c.HTML(200, "home.html", nil)
 	})
 	router.GET("/wschat", func(c *gin.Context) {
-		ws.ServeWs(c.Writer, c.Request)
+		ws.Handler(c.Writer, c.Request)
 	})
 
 	router.Use(gin.Logger())
