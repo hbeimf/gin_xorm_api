@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"../handler"
-	"../redisc"
+	_ "../redisc"
 	"../router/middleware"
 	"../router/ws"
 )
@@ -28,7 +28,7 @@ func Init() *gin.Engine {
 
 	//websocket chat
 	// redis sub
-	go redisc.RedisClient.RedisSub("kuaisan-channel")
+	// go redisc.RedisClient.RedisSub("kuaisan-channel")
 
 	router.LoadHTMLFiles("home.html")
 	router.GET("/chat", func(c *gin.Context) {

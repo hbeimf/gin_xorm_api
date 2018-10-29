@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 
+	"../aes256"
 	"../db"
 	"../router/middleware"
 )
@@ -36,6 +37,13 @@ func HelloHandler(c *gin.Context) {
 		fmt.Println("the user role:", u3)
 
 	}
+
+	// encryption
+	bin := aes256.Encrypt("TEXT", "PASSWORD")
+	fmt.Println("aes256 encode:", bin)
+	// decryption
+	str := aes256.Decrypt(bin, "PASSWORD")
+	fmt.Println("aes256 decode:", str)
 
 	c.JSON(200, gin.H{
 		"userID": claims["id"],
