@@ -11,6 +11,7 @@
 ```
 
 ```
+	http://mirrors.nju.edu.cn/golang/
 	https://studygolang.com/dl
 ```
 
